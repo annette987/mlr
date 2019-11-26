@@ -261,6 +261,44 @@ makeFilterEnsemble(
 )
 
 
+# E-frequency ----------------
+#' Feature occurrence frequency ensemble filter. Calculates the number of times each feature was selected.
+#'
+#' @rdname makeFilter
+#' @name makeFilter
+makeFilterEnsemble(
+  name = "E-frequency",
+  desc = "Feature occurrence frequency ensemble filter. Calculates the occurrence frequency for each filter.",
+  base.methods = NULL,
+  fun = function(task, base.methods, nselect, more.args) {
+
+	fval_list = calcBaseFilters(task, 
+								method = base.methods,
+								nselect = nselect, 
+								more.args = more.args)
+										
+	# calculate ensemble filter
+	x = !is.na(fval_list[[2]]$value)
+	`%>%` = magrittr::`%>%`
+	fval_ens = fval_list[[2]][x,] %>%
+				  dplyr::group_by(method) %>%
+				  dplyr::top_n(nselect) %>%
+				  dplyr::ungroup() %>% 
+				  dplyr::count(name, sort=TRUE)
+    colnames(fval_ens) = c("name", "value")
+
+	# add columns "type" and "method" in preparation for merging
+    fval_ens$type = fval_list[[1]]$data$type[1:length(unique(fval_list[[1]]$data$name))]
+    fval_ens$method = "E-frequency"
+
+	# merge filters
+    fval_ens = mergeFilters(fval_list[[2]], fval_ens)
+
+    return(fval_ens)
+  }
+)
+
+
 # calculate base filters -------------------------------------------------------
 # helper fun to calculate and rank base filters for ensemble filters
 
