@@ -134,13 +134,19 @@ generateFilterValuesData = function(task, method = "randomForestSRC_importance",
     if (is.null(index_names)) {
       index_names = method
     }
+		print(index_names)
     fval = mapply(function(x, name) {
       x = do.call(x$fun, c(list(task = task, nselect = nselect), more.args[[name]]))
+			print("After calling filter:")
+			print(x)
       missing.score = setdiff(fn, names(x))
       x[missing.score] = NA_real_
       x[match(fn, names(x))]
     }, filter, index_names, SIMPLIFY = FALSE)
+		print("After mapply:")
+		print(fval)
     fval = do.call(cbind, fval)
+		print("After cbind")
 		print(fval)
     colnames(fval) = index_names
     types = vcapply(getTaskData(task, target.extra = TRUE)$data[fn], getClass1)
