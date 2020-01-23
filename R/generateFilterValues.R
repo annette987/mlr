@@ -141,15 +141,18 @@ generateFilterValuesData = function(task, method = "randomForestSRC_importance",
       x[match(fn, names(x))]
     }, filter, index_names, SIMPLIFY = FALSE)
     fval = do.call(cbind, fval)
+		print(fval)
     colnames(fval) = index_names
     types = vcapply(getTaskData(task, target.extra = TRUE)$data[fn], getClass1)
 
     out = data.table(name = row.names(fval),
       type = types, fval, row.names = NULL, stringsAsFactors = FALSE)
+		print(out)
 
     # variable.factor = FALSE has no effect
     out = melt(out, value.name = "value", measure.vars = index_names,
       variable.name = "filter")
+		print(out)
   }
 
   makeS3Obj("FilterValues",
