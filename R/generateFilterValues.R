@@ -146,10 +146,12 @@ generateFilterValuesData = function(task, method = "randomForestSRC_importance",
 
     out = data.table(name = row.names(fval),
       type = types, fval, row.names = NULL, stringsAsFactors = FALSE)
+		print(out)
 
     # variable.factor = FALSE has no effect
     out = melt(out, value.name = "value", measure.vars = index_names,
       variable.name = "filter")
+			print(out)
   }
 
   makeS3Obj("FilterValues",
