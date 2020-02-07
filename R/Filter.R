@@ -295,6 +295,7 @@ randomForestSRC.var.select = makeFilter( # nolint
       method = method, verbose = FALSE,
       ...)
     
+		im$varselect[, "depth"] = -1 * im$varselect[, depth]
     im$varselect[setdiff(rownames(im$varselect), im$topvars), "depth"] = NA
     setNames(im$varselect[, "depth"], rownames(im$varselect))
   })
