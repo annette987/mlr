@@ -154,9 +154,11 @@ generateFilterValuesData = function(task, method = "randomForestSRC_importance",
 			print(out)
   }
 
-  makeS3Obj("FilterValues",
+  obj = makeS3Obj("FilterValues",
     task.desc = td,
     data = out)
+		print(obj$data)
+	obj
 }
 #' @export
 print.FilterValues = function(x, ...) {
