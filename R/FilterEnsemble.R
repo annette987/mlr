@@ -150,7 +150,8 @@ makeFilterEnsemble(
     fval.ens$filter = "E-mean"
 
     # merge filters
-    fval.ens = mergeFilters(fval.all.ranked, fval.ens)
+    fval.ens = mergeFilters(fval.all.ranked, fval.ens
+		print(fval.ens)
 
     return(fval.ens)
 
