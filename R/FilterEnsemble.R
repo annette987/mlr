@@ -275,7 +275,7 @@ rankBaseFilters = function(task, method = method,
 
   # rank base filters by method
   value = NULL # due to NSE notes in R CMD check
-  fval.all.ranked = fval.calc$data[, rank := frank(value,
+  fval.all.ranked = fval.calc$data[, rank := frank(value, na.last = FALSE,
     ties.method = "first"), by = filter]
   setorderv(fval.all.ranked, c("filter", "rank"))
 	print(fval.all.ranked)
