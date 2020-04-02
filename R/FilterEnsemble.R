@@ -144,6 +144,8 @@ makeFilterEnsemble(
     fval.ens = aggregate(fval.all.ranked$rank,
       by = list(fval.all.ranked$name), FUN = mean)
     colnames(fval.ens) = c("name", "value")
+		print("Mean values")
+		print(fval.ens)
 
     # add columns "type" and "method"
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
@@ -276,6 +278,7 @@ rankBaseFilters = function(task, method = method,
   fval.all.ranked = fval.calc$data[, rank := frank(value,
     ties.method = "first"), by = filter]
   setorderv(fval.all.ranked, c("filter", "rank"))
+	print(fval.all.ranked)
 
   return(fval.all.ranked)
 
