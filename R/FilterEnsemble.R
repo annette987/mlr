@@ -323,7 +323,7 @@ makeFilterEnsemble(
 #'
 #' @rdname makeFilter
 #' @name makeFilter
-makeFilter(
+makeFilterEnsemble(
   name = "E-RRA",
   desc = "Robust rank aggregation ensemble filter.",
   pkg = "RobustRankAggreg",
@@ -333,6 +333,7 @@ makeFilter(
 			
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
+		print(fval.all.ranked)
 											
 		sets = list()
 #		for (i in 1:resamp$desc$iters) {
