@@ -308,50 +308,11 @@ makeFilterEnsemble(
     colnames(fval.ens) = c("name", "value")
 
 	# add columns "type" and "method" in preparation for merging
-    fval.ens$type = fval_list[[1]]$data$type[1:length(unique(fval_list[[1]]$data$name))]
+    fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
     fval.ens$method = "E-wma"
 
 	# merge filters
-    fval.ens = mergeFilters(fval_list[[2]], fval.ens)
-    return(fval.ens)
-  }
-)
-
-
-# E-CCA ----------------
-#' Classification accuracy aggregation ensemble filter. Sum of the classification accuracies of all models that select that feature (Chan et al 2008).
-#'
-#' @rdname makeFilter
-#' @name makeFilter
-makeFilterEnsemble(
-  name = "E-CCA",
-  desc = "Classification accuracy aggregation ensemble filter. Sum of the classification accuracies of all models that select that feature.",
-  base.methods = NULL,
-  fun = function(task, base.methods, nselect, more.args) {
-
-	fval_list = calcBaseFilters(task, 
-								method = base.methods,
-								nselect = nselect, 
-								more.args = more.args)
-								
-#	fval_list[[2]] is a data.frame with columns (name, type, method, value, rank)
-# 	For univariate.model.score, value would be the classification accuracy.
-# 	But for other methods, e.g. lasso it would be the coefficients
-#	Do I need to modify the filters to return the classification accuracy as well
-										
-    ### calculate ensemble filter
-	
-	# calculate the mean of the weights 
-    fval.ens = aggregate(fval_list[[2]]$value, by = list(fval_list[[2]]$name), FUN = sum)
-    colnames(fval.ens) = c("name", "value")
-
-	# add columns "type" and "method" in preparation for merging
-    fval.ens$type = fval_list[[1]]$data$type[1:length(unique(fval_list[[1]]$data$name))]
-    fval.ens$method = "E-frequency"
-
-	# merge filters
-    fval.ens = mergeFilters(fval_list[[2]], fval.ens)
-
+    fval.ens = mergeFilters(fval.all.ranked, fval.ens)
     return(fval.ens)
   }
 )
