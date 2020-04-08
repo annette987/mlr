@@ -326,9 +326,7 @@ makeFilterEnsemble(
 makeFilterEnsemble(
   name = "E-RRA",
   desc = "Robust rank aggregation ensemble filter.",
-  pkg = "RobustRankAggreg",
-  supported.tasks = c("classif", "regr", "surv"),
-  supported.features = c("numerics", "factors", "ordered"),
+  base.methods = NULL,
   fun = function(task, nselect, resamp, autothresh, base.method, base.args) {
 			
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
