@@ -259,6 +259,134 @@ makeFilterEnsemble(
   }
 )
 
+# E-freq ----------------
+#' Feature occurrence frequency ensemble filter. Calculates the number of times each feature was selected.
+#'
+#' @rdname makeFilter
+#' @name makeFilter
+makeFilterEnsemble(
+  name = "E-freq",
+  desc = "Feature occurrence frequency ensemble filter. Calculates the occurrence frequency for each filter.",
+  base.methods = NULL,
+  fun = function(task, base.methods, nselect, more.args) {
+
+    fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
+      nselect = nselect, more.args = more.args)
+										
+	# calculate ensemble filter
+		x = !is.na(fval.all.ranked$value)
+    fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
+    colnames(fval.ens) = c("name", "value")
+
+    fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
+    fval.ens$filter = "E-freq"
+
+    # merge filters
+    fval.ens = mergeFilters(fval.all.ranked, fval.ens)
+    return(fval.ens)
+  }
+)
+
+
+# E-wma ----------------
+#' Weighted mean aggregation ensemble filter. Calculates the mean of the weights for each feature.
+#'
+#' @rdname makeFilter
+#' @name makeFilter
+makeFilterEnsemble(
+  name = "E-wma",
+  desc = "Weighted mean aggregation ensemble filter. Calculates the mean of the weights for each feature.",
+  base.methods = NULL,
+  fun = function(task, base.methods, nselect, more.args) {
+
+    fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
+      nselect = nselect, more.args = more.args)
+											
+	# calculate the mean of the weights 
+    fval.ens = aggregate(fval.all.ranked$value,
+      by = list(fval.all.ranked$name), FUN = mean)
+    colnames(fval.ens) = c("name", "value")
+
+	# add columns "type" and "method" in preparation for merging
+    fval.ens$type = fval_list[[1]]$data$type[1:length(unique(fval_list[[1]]$data$name))]
+    fval.ens$method = "E-wma"
+
+	# merge filters
+    fval.ens = mergeFilters(fval_list[[2]], fval.ens)
+    return(fval.ens)
+  }
+)
+
+
+# E-CCA ----------------
+#' Classification accuracy aggregation ensemble filter. Sum of the classification accuracies of all models that select that feature (Chan et al 2008).
+#'
+#' @rdname makeFilter
+#' @name makeFilter
+makeFilterEnsemble(
+  name = "E-CCA",
+  desc = "Classification accuracy aggregation ensemble filter. Sum of the classification accuracies of all models that select that feature.",
+  base.methods = NULL,
+  fun = function(task, base.methods, nselect, more.args) {
+
+	fval_list = calcBaseFilters(task, 
+								method = base.methods,
+								nselect = nselect, 
+								more.args = more.args)
+								
+#	fval_list[[2]] is a data.frame with columns (name, type, method, value, rank)
+# 	For univariate.model.score, value would be the classification accuracy.
+# 	But for other methods, e.g. lasso it would be the coefficients
+#	Do I need to modify the filters to return the classification accuracy as well
+										
+    ### calculate ensemble filter
+	
+	# calculate the mean of the weights 
+    fval.ens = aggregate(fval_list[[2]]$value, by = list(fval_list[[2]]$name), FUN = sum)
+    colnames(fval.ens) = c("name", "value")
+
+	# add columns "type" and "method" in preparation for merging
+    fval.ens$type = fval_list[[1]]$data$type[1:length(unique(fval_list[[1]]$data$name))]
+    fval.ens$method = "E-frequency"
+
+	# merge filters
+    fval.ens = mergeFilters(fval_list[[2]], fval.ens)
+
+    return(fval.ens)
+  }
+)
+
+
+#' E-RRA ----------------
+#' Robust rank aggregation ensemble filter. 
+#'
+#' @rdname makeFilter
+#' @name makeFilter
+makeFilter(
+  name = "E-RRA",
+  desc = "Robust rank aggregation ensemble filter.",
+  pkg = "RobustRankAggreg",
+  supported.tasks = c("classif", "regr", "surv"),
+  supported.features = c("numerics", "factors", "ordered"),
+  fun = function(task, nselect, resamp, autothresh, base.method, base.args) {
+		if (inherits(resamp, "ResampleDesc"))
+			resamp = makeResampleInstance(resamp, task = task)
+			
+    fval.all = genHomogeneousFilter(task = task, nselect = nselect, resamp = resamp, autothresh = autothresh,
+											base_method = base.method, base_args = base.args)
+
+		sets = list()
+		for (i in 1:resamp$desc$iters) {
+			df = fval.all[[i]]
+			sets[i] = df[!is.na(df$value), 'name']	
+		}
+
+		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
+		print(res)
+		return(setNames(res$Score * -1L, res$Name))
+  }
+)
+
 
 # rank base filters -------------------------------------------------------
 # helper fun to calculate and rank base filters for ensemble filters
