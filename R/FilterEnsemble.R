@@ -309,7 +309,7 @@ makeFilterEnsemble(
 
 	# add columns "type" and "method" in preparation for merging
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
-    fval.ens$method = "E-wma"
+    fval.ens$filter = "E-wma"
 
 	# merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
@@ -330,17 +330,15 @@ makeFilter(
   supported.tasks = c("classif", "regr", "surv"),
   supported.features = c("numerics", "factors", "ordered"),
   fun = function(task, nselect, resamp, autothresh, base.method, base.args) {
-		if (inherits(resamp, "ResampleDesc"))
-			resamp = makeResampleInstance(resamp, task = task)
 			
-    fval.all = genHomogeneousFilter(task = task, nselect = nselect, resamp = resamp, autothresh = autothresh,
-											base_method = base.method, base_args = base.args)
-
+    fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
+      nselect = nselect, more.args = more.args)
+											
 		sets = list()
-		for (i in 1:resamp$desc$iters) {
-			df = fval.all[[i]]
-			sets[i] = df[!is.na(df$value), 'name']	
-		}
+#		for (i in 1:resamp$desc$iters) {
+#			df = fval.ens[[i]]
+#			sets[i] = df[!is.na(df$value), 'name']	
+#		}
 
 		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
 		print(res)
