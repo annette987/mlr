@@ -328,7 +328,8 @@ makeFilterEnsemble(
   desc = "Robust rank aggregation ensemble filter.",
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
-			
+		
+		print("In E-RRA")
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 		print(fval.all.ranked)
