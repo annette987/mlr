@@ -334,11 +334,12 @@ makeFilterEnsemble(
       nselect = nselect, more.args = more.args)
 		print(fval.all.ranked)
 											
-		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
-		print(sets)
-		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
-		print(res)
-		return(setNames(res$Score * -1L, res$Name))
+#		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
+#		print(sets)
+#		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
+#		print(res)
+#		return(setNames(res$Score * -1L, res$Name))
+		return(list(fval.all.ranked))
   }
 )
 
