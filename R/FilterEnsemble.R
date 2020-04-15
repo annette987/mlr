@@ -299,7 +299,6 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 
-    print("In E-wma")
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 		print(fval.all.ranked)
@@ -315,13 +314,6 @@ makeFilterEnsemble(
 
 	# merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
-		
-	# From E-RRA for testing
-		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
-		print(sets)
-		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
-		print(res)
-
     return(fval.ens)
   }
 )
@@ -343,12 +335,11 @@ makeFilterEnsemble(
       nselect = nselect, more.args = more.args)
 		print(fval.all.ranked)
 												
-#		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
-#		print(sets)
-#		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
-#		print(res)
-#		return(setNames(res$Score * -1L, res$Name))
-		return(NULL)
+		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
+		print(sets)
+		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
+		print(res)
+		return(setNames(res$Score * -1L, res$Name))
   }
 )
 
