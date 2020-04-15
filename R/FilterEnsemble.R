@@ -333,12 +333,8 @@ makeFilterEnsemble(
       nselect = nselect, more.args = more.args)
 		print(fval.all.ranked)
 											
-		sets = list()
-#		for (i in 1:resamp$desc$iters) {
-#			df = fval.ens[[i]]
-#			sets[i] = df[!is.na(df$value), 'name']	
-#		}
-
+		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
+		print(sets)
 		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
 		print(res)
 		return(setNames(res$Score * -1L, res$Name))
