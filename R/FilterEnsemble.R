@@ -301,6 +301,7 @@ makeFilterEnsemble(
 
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
+		print(fval.all.ranked)
 											
 	# calculate the mean of the weights 
     fval.ens = aggregate(fval.all.ranked$value,
@@ -313,6 +314,13 @@ makeFilterEnsemble(
 
 	# merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
+		
+	# From E-RRA for testing
+		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
+		print(sets)
+		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
+		print(res)
+
     return(fval.ens)
   }
 )
@@ -333,26 +341,13 @@ makeFilterEnsemble(
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 		print(fval.all.ranked)
-		
-	#	Include code for wma for now as we know this worls
-	# calculate the mean of the weights 
-    fval.ens = aggregate(fval.all.ranked$value,
-      by = list(fval.all.ranked$name), FUN = mean)
-    colnames(fval.ens) = c("name", "value")
-
-	# add columns "type" and "method" in preparation for merging
-    fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
-    fval.ens$filter = "E-wma"
-
-	# merge filters
-    fval.ens = mergeFilters(fval.all.ranked, fval.ens)
-    return(fval.ens)
-											
+												
 #		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
 #		print(sets)
 #		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
 #		print(res)
 #		return(setNames(res$Score * -1L, res$Name))
+		return(NULL)
   }
 )
 
