@@ -1,4 +1,5 @@
 .FilterEnsembleRegister = new.env() # nolint
+library(RobustRankAggreg)
 
 #' Create an ensemble feature filter.
 #'
@@ -330,7 +331,7 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 		
-		print("In E-RRA")
+		print("In E-RRA - Hello world")
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 		print(fval.all.ranked)
