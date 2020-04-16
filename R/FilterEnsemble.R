@@ -367,7 +367,6 @@ rankBaseFilters = function(task, method = method,
     ties.method = "first"), by = filter]
   setorderv(fval.all.ranked, c("filter", "rank"))
 
-#	print(fval.all.ranked)
   return(fval.all.ranked)
 
 }
@@ -379,8 +378,6 @@ mergeFilters = function(simple_filters, ensemble_filters) {
   # merge ensemble and base filters
   simple_filters$rank = NULL
   all.filters = rbind(simple_filters, ensemble_filters)
-	print(simple_filters)
-	print(ensemble_filters)
-
+	print("rbind complete")
   return(all.filters)
 }
