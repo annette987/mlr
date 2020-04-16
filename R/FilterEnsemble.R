@@ -302,14 +302,13 @@ makeFilterEnsemble(
 
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
-		print(fval.all.ranked)
 											
 	# calculate the mean of the weights 
     fval.ens = aggregate(fval.all.ranked$value,
       by = list(fval.all.ranked$name), FUN = mean)
     colnames(fval.ens) = c("name", "value")
 
-	# add columns "type" and "method" in preparation for merging
+	# add columns "type" and "filter" in preparation for merging
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
     fval.ens$filter = "E-wma"
 
@@ -334,7 +333,6 @@ makeFilterEnsemble(
 		print("In E-RRA - Hello world")
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
-		print(fval.all.ranked)
 												
 		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
 		print(sets)
@@ -361,6 +359,7 @@ rankBaseFilters = function(task, method = method,
     ties.method = "first"), by = filter]
   setorderv(fval.all.ranked, c("filter", "rank"))
 
+	print(fval.all.ranked)
   return(fval.all.ranked)
 
 }
@@ -372,6 +371,7 @@ mergeFilters = function(simple_filters, ensemble_filters) {
   # merge ensemble and base filters
   simple_filters$rank = NULL
   all.filters = rbind(simple_filters, ensemble_filters)
+	print(all.filters)
 
   return(all.filters)
 }
