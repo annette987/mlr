@@ -330,15 +330,24 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 		
-		print("In E-RRA - Hello world")
+		print("In E-RRA - updated")
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 												
+	# calculate the robust rank aggregation 
 		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
 		print(sets)
-		res = aggregateRanks(glist = sets, method = "RRA", N = 251)
-		print(res)
-		return(setNames(res$Score * -1L, res$Name))
+		fval.ens = aggregateRanks(glist = sets, method = "RRA", N = 251)
+    colnames(fval.ens) = c("name", "value")
+		print(fval.ens)
+		
+		# add columns "type" and "filter" in preparation for merging
+    fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
+    fval.ens$filter = "E-RRA"
+
+	# merge filters
+    fval.ens = mergeFilters(fval.all.ranked, fval.ens)
+    return(fval.ens)
   }
 )
 
