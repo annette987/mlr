@@ -379,7 +379,8 @@ mergeFilters = function(simple_filters, ensemble_filters) {
   # merge ensemble and base filters
   simple_filters$rank = NULL
   all.filters = rbind(simple_filters, ensemble_filters)
-#	print(all.filters)
+	print(simple_filters)
+	print(ensemble_filters)
 
   return(all.filters)
 }
