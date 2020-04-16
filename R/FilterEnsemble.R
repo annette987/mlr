@@ -336,10 +336,9 @@ makeFilterEnsemble(
 												
 	# calculate the robust rank aggregation 
 		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
-		print(sets)
 		fval.ens = aggregateRanks(glist = sets, method = "RRA", N = 251)
     colnames(fval.ens) = c("name", "value")
-		print(fval.ens)
+#		print(fval.ens)
 		
 		# add columns "type" and "filter" in preparation for merging
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
@@ -368,7 +367,7 @@ rankBaseFilters = function(task, method = method,
     ties.method = "first"), by = filter]
   setorderv(fval.all.ranked, c("filter", "rank"))
 
-	print(fval.all.ranked)
+#	print(fval.all.ranked)
   return(fval.all.ranked)
 
 }
@@ -380,7 +379,7 @@ mergeFilters = function(simple_filters, ensemble_filters) {
   # merge ensemble and base filters
   simple_filters$rank = NULL
   all.filters = rbind(simple_filters, ensemble_filters)
-	print(all.filters)
+#	print(all.filters)
 
   return(all.filters)
 }
