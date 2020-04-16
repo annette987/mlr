@@ -55,6 +55,7 @@
 generateFilterValuesData = function(task, method = "randomForestSRC_importance",
   nselect = getTaskNFeats(task), ..., more.args = list()) {
 
+	print("In generateFilterValuesData")
   # define for later checks
   ens.method = NULL
 
@@ -152,7 +153,7 @@ generateFilterValuesData = function(task, method = "randomForestSRC_importance",
     # variable.factor = FALSE has no effect
     out = melt(out, value.name = "value", measure.vars = index_names,
       variable.name = "filter")
-#		print(out)
+		print(out)
   }
 
   makeS3Obj("FilterValues",
