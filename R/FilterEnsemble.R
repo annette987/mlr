@@ -278,11 +278,15 @@ makeFilterEnsemble(
 		
 	# calculate ensemble filter
 		x = !is.na(fval.all.ranked$value)
+		print(x)
     fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
     colnames(fval.ens) = c("name", "value")
-
 		print("Counting done")
-    fval.ens$type = fval.all.ranked$type[1:length(fval.all.ranked$name)]
+		
+		print(nrow(fval.all.ranked))
+		print(nrow(fval.ens))
+		print(length(fval.all.ranked$type[1:length(unique(fval.all.ranked$name))])
+    fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
     fval.ens$filter = "E-freq"
 
 		print("Merging filters")
