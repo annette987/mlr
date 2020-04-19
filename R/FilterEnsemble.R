@@ -286,7 +286,7 @@ makeFilterEnsemble(
 		print(nrow(fval.all.ranked))
 		print(nrow(fval.ens))
 		print(length(fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]))
-    fval.ens$type = fval.all.ranked$type[fval.ens$name]
+    fval.ens$type = fval.all.ranked[fval.ens$name, type]
     fval.ens$filter = "E-freq"
 		print(fval.ens)
 
