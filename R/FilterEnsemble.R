@@ -279,8 +279,8 @@ makeFilterEnsemble(
 		x = !is.na(fval.all.ranked$value)
     fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
     colnames(fval.ens) = c("name", "value")
-		print(nrow(fval.all.ranked)
-		print(nrow(fval.ens)
+		print(nrow(fval.all.ranked))
+		print(nrow(fval.ens))
 		print(length(unique(fval.all.ranked$name %in% fval.ens$name)))
 
 		fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name %in% fval.ens$name))]
