@@ -282,7 +282,7 @@ makeFilterEnsemble(
     colnames(fval.ens) = c("name", "value")
 
 		print("Counting done")
-    fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
+    fval.ens$type = fval.all.ranked$type[1:length(fval.all.ranked$name)]
     fval.ens$filter = "E-freq"
 
 		print("Merging filters")
