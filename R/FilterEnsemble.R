@@ -284,6 +284,7 @@ makeFilterEnsemble(
 
     # merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
+		print(fval.ens)
     return(fval.ens)
   }
 )
