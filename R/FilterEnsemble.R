@@ -271,17 +271,21 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 
+		print("In E-freq")
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
-      nselect = nselect, more.args = more.args)
-										
+      nselect = nselect, more.args = more.args)		
+		print("Ranking done")	
+		
 	# calculate ensemble filter
 		x = !is.na(fval.all.ranked$value)
     fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
     colnames(fval.ens) = c("name", "value")
 
+		print("Counting done")
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
     fval.ens$filter = "E-freq"
 
+		print("Merging filters")
     # merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
 		print(fval.ens)
