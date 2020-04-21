@@ -308,11 +308,13 @@ makeFilterEnsemble(
 
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
+		print(fval.all.ranked)
 											
 	# calculate the mean of the weights 
     fval.ens = aggregate(fval.all.ranked$value,
       by = list(fval.all.ranked$name), FUN = mean)
     colnames(fval.ens) = c("name", "value")
+		print(fval.ens)
 
 	# add columns "type" and "filter" in preparation for merging
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
