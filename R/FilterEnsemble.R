@@ -143,7 +143,7 @@ makeFilterEnsemble(
 
     # group by "name" and summarize the minimum of "rank"
     fval.ens = aggregate(fval.all.ranked$rank,
-      by = list(fval.all.ranked$name), FUN = mean)
+      by = list(fval.all.ranked$name), FUN = mean, na.rm = TRUE)
     colnames(fval.ens) = c("name", "value")
 
     # add columns "type" and "method"
@@ -312,7 +312,8 @@ makeFilterEnsemble(
 											
 	# calculate the mean of the weights 
     fval.ens = aggregate(fval.all.ranked$value,
-      by = list(fval.all.ranked$name), FUN = mean)
+      by = list(fval.all.ranked$name), FUN = mean, na.rm = TRUE)
+		fval.ens[fval.ens == NaN] = NA
     colnames(fval.ens) = c("name", "value")
 		print(fval.ens)
 
