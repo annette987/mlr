@@ -308,7 +308,8 @@ makeFilterEnsemble(
 
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
-		print(fval.all.ranked)
+		print(fval.all.ranked[283:302, ])
+		print(fval.all.ranked[585:604, ])
 											
 	# calculate the mean of the weights 
     fval.ens = aggregate(fval.all.ranked$value,
