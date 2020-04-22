@@ -315,7 +315,7 @@ makeFilterEnsemble(
 		for (i in 1:length(base.methods)){
 			first = nfeats*(i-1) + 1
 			last  = nfeats*i
-			fval.all.ranked[first:last, 'value'] = (fval.all.ranked[first:last, 'value'] - mean(fval.all.ranked[first:last, 'value']) 
+			fval.all.ranked[first:last, 'value'] = (fval.all.ranked[first:last, 'value'] - mean(fval.all.ranked[first:last, 'value']))
 																							/ sd(fval.all.ranked[first:last, 'value'])
 			print(fval.all.ranked[last-10:last, ])
 		}
