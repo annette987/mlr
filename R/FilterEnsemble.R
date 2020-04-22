@@ -309,28 +309,15 @@ makeFilterEnsemble(
 		print("In E-wma")
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
-#		print(class(fval.all.ranked))
 
 		# Standardize values so that they are comparable
-#		nfeats = nrow(fval.all.ranked) / length(base.methods)
-#		print(paste0("nfeats = ", nfeats))
-#		for (i in 1:length(base.methods)){
-#			first = nfeats*(i-1) + 1
-#			last  = nfeats*i
-#			print(paste0("First = ", first, " Last = ", last))
-#			print(paste0("Mean = ", mean(fval.all.ranked$value[first:last], na.rm = TRUE)))
-#			print(paste0("SD = ", sd(fval.all.ranked$value[first:last], na.rm = TRUE)))			
-#			fval.all.ranked$value[first:last] = (fval.all.ranked$value[first:last] - mean(fval.all.ranked$value[first:last], na.rm = TRUE)) / sd(fval.all.ranked$vaue[first:last], na.rm = TRUE)
-#			print("Updated values")
-#			print(fval.all.ranked[last-10:last, ])
-#		}
-		fval.all.ranked = fval.all.ranked[, norm := (value - mean(value, na.rm=TRUE)) / sd(value, na.rm=TRUE), by = filter]
+		tmp = fval.all.ranked[, norm := (value - mean(value, na.rm=TRUE)) / sd(value, na.rm=TRUE), by = filter]
+		fval.all.ranked$value = tmp$norm
 		print(fval.all.ranked)
 											
 	# calculate the mean of the weights 
-    fval.ens = aggregate(fval.all.ranked$norm,
+    fval.ens = aggregate(fval.all.ranked$value,
       by = list(fval.all.ranked$name), FUN = mean, na.rm = TRUE)
-#		fval.ens[fval.ens == NaN] = NA
     colnames(fval.ens) = c("name", "value")
 		print(fval.ens)
 
