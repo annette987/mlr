@@ -307,9 +307,9 @@ makeFilterEnsemble(
   fun = function(task, base.methods, nselect, more.args) {
 
 		print("In E-wma")
-		print(class(fval.all.ranked))
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
+		print(class(fval.all.ranked))
 
 		# Standardize values so that they are comparable
 		nfeats = nrow(fval.all.ranked) / length(base.methods)
