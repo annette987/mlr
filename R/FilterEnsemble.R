@@ -309,9 +309,16 @@ makeFilterEnsemble(
 		print("In E-wma")
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
-		print("Ranked base filters")
-		print(fval.all.ranked[283:302, ])
-		print(fval.all.ranked[585:604, ]) 
+
+		# Standardize values so that they are comparable
+		nfeats = nrow(fval.all.ranked) / length(base.methods)
+		for (i = 1:length(base.methods)){
+			first = nfeats*(i-1) + 1
+			last  = nfeats*i
+			fval.all.ranked[first:last, 'value'] = (fval.all.ranked[first:last, 'value'] - mean(fval.all.ranked[first:last, 'value']) 
+																							/ sd(fval.all.ranked[first:last, 'value'])
+			print(fval.all.ranked[last-10:last, ])
+		}
 											
 	# calculate the mean of the weights 
     fval.ens = aggregate(fval.all.ranked$value,
