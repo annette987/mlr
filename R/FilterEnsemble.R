@@ -277,6 +277,8 @@ makeFilterEnsemble(
 		
 	# calculate ensemble filter
 		x = !is.na(fval.all.ranked$value)
+		print(x[1:302])
+		print(x[303:604])
     fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
     colnames(fval.ens) = c("name", "value")
 
