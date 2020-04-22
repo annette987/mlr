@@ -311,8 +311,9 @@ makeFilterEnsemble(
       nselect = nselect, more.args = more.args)
 
 		# Standardize values so that they are comparable
-		tmp = fval.all.ranked[, norm := (value - mean(value, na.rm=TRUE)) / sd(value, na.rm=TRUE), by = filter]
-		fval.all.ranked$value = tmp$norm
+		fval.all.ranked[, norm := (value - mean(value, na.rm=TRUE)) / sd(value, na.rm=TRUE), by = filter]
+		fval.all.ranked$value = fval.all.ranked$norm
+		fval.all.ranked[,norm:=NULL]
 		print(fval.all.ranked)
 											
 	# calculate the mean of the weights 
