@@ -312,7 +312,7 @@ makeFilterEnsemble(
 
 		# Standardize values so that they are comparable
 		nfeats = nrow(fval.all.ranked) / length(base.methods)
-		for (i = 1:length(base.methods)){
+		for (i in 1:length(base.methods)){
 			first = nfeats*(i-1) + 1
 			last  = nfeats*i
 			fval.all.ranked[first:last, 'value'] = (fval.all.ranked[first:last, 'value'] - mean(fval.all.ranked[first:last, 'value']) 
