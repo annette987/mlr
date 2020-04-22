@@ -317,7 +317,11 @@ makeFilterEnsemble(
 		for (i in 1:length(base.methods)){
 			first = nfeats*(i-1) + 1
 			last  = nfeats*i
-			fval.all.ranked$value[first:last] = (fval.all.ranked$value[first:last] - mean(fval.all.ranked$value[first:last], na.rm = TRUE)) / sd(fval.all.ranked$vaue[first:last])
+			print(paste0("First = ", first, " Last = ", last))
+			print(paste0("Mean = ", mean(fval.all.ranked$value[first:last], na.rm = TRUE)))
+			print(paste0("SD = ", sd(fval.all.ranked$value[first:last], na.rm = TRUE)))			
+			fval.all.ranked$value[first:last] = (fval.all.ranked$value[first:last] - mean(fval.all.ranked$value[first:last], na.rm = TRUE)) / sd(fval.all.ranked$vaue[first:last], na.rm = TRUE)
+			print("Updated values")
 			print(fval.all.ranked[last-10:last, ])
 		}
 											
