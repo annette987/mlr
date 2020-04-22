@@ -309,7 +309,7 @@ makeFilterEnsemble(
 		print("In E-wma")
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
-		print("Ranked base filters"
+		print("Ranked base filters")
 		print(fval.all.ranked[283:302, ])
 		print(fval.all.ranked[585:604, ]) 
 											
