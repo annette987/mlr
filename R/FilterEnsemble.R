@@ -279,14 +279,10 @@ makeFilterEnsemble(
 		x = !is.na(fval.all.ranked$value)
     fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
     colnames(fval.ens) = c("name", "value")
-		print(nrow(fval.all.ranked))
-		print(nrow(fval.ens))
-		print(length(unique(fval.ens$name)))
-#		print(unique(fval.ens$name))
 
 		fval.ens$type = fval.all.ranked$type[1:length(unique(fval.ens$name))]
     fval.ens$filter = "E-freq"
-#		print(fval.ens)
+		print(fval.ens)
 
     # merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
@@ -306,7 +302,6 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 
-		print("In E-wma")
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 
@@ -320,7 +315,6 @@ makeFilterEnsemble(
     fval.ens = aggregate(fval.all.ranked$value,
       by = list(fval.all.ranked$name), FUN = mean, na.rm = TRUE)
     colnames(fval.ens) = c("name", "value")
-		print(fval.ens)
 
 	# add columns "type" and "filter" in preparation for merging
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
