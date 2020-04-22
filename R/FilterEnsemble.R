@@ -307,15 +307,17 @@ makeFilterEnsemble(
   fun = function(task, base.methods, nselect, more.args) {
 
 		print("In E-wma")
+		print(class(fval.all.ranked))
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 
 		# Standardize values so that they are comparable
 		nfeats = nrow(fval.all.ranked) / length(base.methods)
+		print(paste0("nfeats = ", nfeats))
 		for (i in 1:length(base.methods)){
 			first = nfeats*(i-1) + 1
 			last  = nfeats*i
-			fval.all.ranked[first:last, 'value'] = (fval.all.ranked[first:last, 'value'] - mean(fval.all.ranked[first:last, 'value'])) / sd(fval.all.ranked[first:last, 'value'])
+			fval.all.ranked$value[first:last] = (fval.all.ranked$value[first:last] - mean(fval.all.ranked$value[first:last], na.rm = TRUE)) / sd(fval.all.ranked$vaue[first:last])
 			print(fval.all.ranked[last-10:last, ])
 		}
 											
