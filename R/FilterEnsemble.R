@@ -344,7 +344,7 @@ makeFilterEnsemble(
 												
 	# calculate the robust rank aggregation 
 		x = !is.na(fval.all.ranked$value)
-		sets = split(x = fval.all.ranked$name[x,], f = fval.all.ranked$filter[x,])
+		sets = split(x = fval.all.ranked$name[x], f = fval.all.ranked$filter[x])
 		print(sets)
 		fval.ens = aggregateRanks(glist = sets, method = "RRA", N = 251)
     colnames(fval.ens) = c("name", "value")
