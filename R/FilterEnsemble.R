@@ -144,6 +144,7 @@ makeFilterEnsemble(
     # group by "name" and summarize the minimum of "rank"
     fval.ens = aggregate(fval.all.ranked$rank,
       by = list(fval.all.ranked$name), FUN = mean, na.rm = TRUE)
+		fval.ens[fval.ens == NaN] = NA
     colnames(fval.ens) = c("name", "value")
 
     # add columns "type" and "method"
@@ -272,6 +273,7 @@ makeFilterEnsemble(
   fun = function(task, base.methods, nselect, more.args) {
 
 		print("In E-freq")
+		print(paste0("nselect = ", nselect))
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)		
 		
@@ -301,6 +303,7 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 
+		print(paste0("nselect = ", nselect))
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 
@@ -313,6 +316,7 @@ makeFilterEnsemble(
 	# calculate the mean of the weights 
     fval.ens = aggregate(fval.all.ranked$value,
       by = list(fval.all.ranked$name), FUN = mean, na.rm = TRUE)
+		fval.ens[fval.ens == NaN] = NA
     colnames(fval.ens) = c("name", "value")
 
 	# add columns "type" and "filter" in preparation for merging
@@ -338,6 +342,7 @@ makeFilterEnsemble(
   fun = function(task, base.methods, nselect, more.args) {
 		
 		print("In E-RRA")
+		print(paste0("nselect = ", nselect))
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 		print(fval.all.ranked)
