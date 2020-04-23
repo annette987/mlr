@@ -277,14 +277,11 @@ makeFilterEnsemble(
 		
 	# calculate ensemble filter
 		x = !is.na(fval.all.ranked$value)
-		print(x[1:302])
-		print(x[303:604])
     fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
     colnames(fval.ens) = c("name", "value")
 
 		fval.ens$type = fval.all.ranked$type[1:length(unique(fval.ens$name))]
     fval.ens$filter = "E-freq"
-		print(fval.ens)
 
     # merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
@@ -340,15 +337,18 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 		
-		print("In E-RRA - updated")
+		print("In E-RRA")
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
+		print(fval.all.ranked)
 												
 	# calculate the robust rank aggregation 
-		sets = split(x = fval.all.ranked$name, f = fval.all.ranked$filter)
+		x = !is.na(fval.all.ranked$value)
+		sets = split(x = fval.all.ranked$name[x,], f = fval.all.ranked$filter[x,])
+		print(sets)
 		fval.ens = aggregateRanks(glist = sets, method = "RRA", N = 251)
     colnames(fval.ens) = c("name", "value")
-#		print(fval.ens)
+		print(fval.ens)
 		
 		# add columns "type" and "filter" in preparation for merging
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
