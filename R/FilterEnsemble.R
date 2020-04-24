@@ -273,9 +273,16 @@ makeFilterEnsemble(
   fun = function(task, base.methods, nselect, more.args) {
 
 		print("In E-freq")
-		print(paste0("nselect = ", nselect))
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
-      nselect = nselect, more.args = more.args)		
+      nselect = nselect, more.args = more.args)
+
+		# Check for filters that return a value for all features
+		# These will have to be thresholded at this point, otherwise frequency is meaningless
+		# Values were sorted in rankBaseFilters
+		all.vals = fval.all.ranked[, any(is.na(value)), by = filter]
+		names(all.vals) = c("filter", "value")
+		filts = all.vals[value == FALSE, filter]
+		fval.all.ranked[filter == filts, value:={value[-c(1:nselect)]<-NA;value}, by = filter]
 		
 	# calculate ensemble filter
 		x = !is.na(fval.all.ranked$value)

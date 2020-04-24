@@ -184,8 +184,6 @@ filterFeatures = function(task, method = "randomForestSRC_importance",
       assertSubset(select.method, choices = unique(fval$filter))
       fval = fval[fval$filter == select.method, ]
     }
-		print(paste0("Method = ", method[[1]]))
-		print(fval)
   }
   if (nselect > 0L) {
 
