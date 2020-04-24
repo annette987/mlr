@@ -282,12 +282,15 @@ makeFilterEnsemble(
 		all.vals = fval.all.ranked[, any(is.na(value)), by = filter]
 		names(all.vals) = c("filter", "value")
 		filts = all.vals[value == FALSE, filter]
+		print(filts)
 		fval.all.ranked[filter == filts, value:={value[-c(1:nselect)]<-NA;value}, by = filter]
+		print(fval.all.ranked)
 		
 	# calculate ensemble filter
 		x = !is.na(fval.all.ranked$value)
     fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
     colnames(fval.ens) = c("name", "value")
+		print(fval.ens)
 
 		fval.ens$type = fval.all.ranked$type[1:length(unique(fval.ens$name))]
     fval.ens$filter = "E-freq"
@@ -310,7 +313,6 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 
-		print(paste0("nselect = ", nselect))
 		fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 
@@ -318,7 +320,6 @@ makeFilterEnsemble(
 		fval.all.ranked[, norm := (value - mean(value, na.rm=TRUE)) / sd(value, na.rm=TRUE), by = filter]
 		fval.all.ranked$value = fval.all.ranked$norm
 		fval.all.ranked[,norm:=NULL]
-		print(fval.all.ranked)
 											
 	# calculate the mean of the weights 
     fval.ens = aggregate(fval.all.ranked$value,
@@ -349,10 +350,16 @@ makeFilterEnsemble(
   fun = function(task, base.methods, nselect, more.args) {
 		
 		print("In E-RRA")
-		print(paste0("nselect = ", nselect))
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
-		print(fval.all.ranked)
+
+		# Check for filters that return a value for all features
+		# These will have to be thresholded at this point, to obtain meaningful subsets
+		# Values were sorted in rankBaseFilters
+		all.vals = fval.all.ranked[, any(is.na(value)), by = filter]
+		names(all.vals) = c("filter", "value")
+		filts = all.vals[value == FALSE, filter]
+		fval.all.ranked[filter == filts, value:={value[-c(1:nselect)]<-NA;value}, by = filter]
 												
 	# calculate the robust rank aggregation 
 		x = !is.na(fval.all.ranked$value)
@@ -360,7 +367,6 @@ makeFilterEnsemble(
 		print(sets)
 		fval.ens = aggregateRanks(glist = sets, method = "RRA", N = 251)
     colnames(fval.ens) = c("name", "value")
-		print(fval.ens)
 		
 		# add columns "type" and "filter" in preparation for merging
     fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
