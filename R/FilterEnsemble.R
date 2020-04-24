@@ -365,14 +365,11 @@ makeFilterEnsemble(
 		x = !is.na(fval.all.ranked$value)
 		sets = split(x = fval.all.ranked$name[x], f = fval.all.ranked$filter[x])
 		print(sets)
-		fval.ens = aggregateRanks(glist = sets, method = "RRA", N = 251)
+		fval.ens = as.data.table(aggregateRanks(glist = sets, method = "RRA", N = 251))
     colnames(fval.ens) = c("name", "value")
-		print(fval.ens)
-		print(paste0("fval.all.ranked is of type ", class(fval.all.ranked)))
-		print(paste0("fval.ens is of type ", class(fval.ens)))
 		
 		# add columns "type" and "filter" in preparation for merging
-    fval.ens$type = fval.all.ranked$type[name %in% fval.ens['name']]
+		fval.ens[fval.all.ranked, type:=type, on = .(name)]
     fval.ens$filter = "E-RRA"
 		print(fval.ens)
 
