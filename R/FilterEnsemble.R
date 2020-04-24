@@ -367,9 +367,10 @@ makeFilterEnsemble(
 		print(sets)
 		fval.ens = aggregateRanks(glist = sets, method = "RRA", N = 251)
     colnames(fval.ens) = c("name", "value")
+		print(fval.ens)
 		
 		# add columns "type" and "filter" in preparation for merging
-    fval.ens$type = fval.all.ranked$type[1:length(unique(fval.all.ranked$name))]
+    fval.ens$type = fval.all.ranked[name %in% fval.ens$name, 1:length(unique(fval.all.ranked$name))]
     fval.ens$filter = "E-RRA"
 
 	# merge filters
