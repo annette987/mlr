@@ -370,8 +370,9 @@ makeFilterEnsemble(
 		print(fval.ens)
 		
 		# add columns "type" and "filter" in preparation for merging
-    fval.ens$type = fval.all.ranked[name %in% fval.ens$name, 1:length(unique(fval.all.ranked$name))]
+    fval.ens$type = fval.all.ranked$type[name %in% fval.ens$name]
     fval.ens$filter = "E-RRA"
+		print(fval.ens)
 
 	# merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
