@@ -283,7 +283,7 @@ makeFilterEnsemble(
 		names(all.vals) = c("filter", "value")
 		filts = all.vals[value == FALSE, filter]
 		print(filts)
-		fval.all.ranked[filter == filts, value:={value[-c(1:nselect)]<-NA;value}, by = filter]
+		fval.all.ranked[filter %in% filts, value:={value[-c(1:nselect)]<-NA;value}, by = filter]
 		print(fval.all.ranked)
 		
 	# calculate ensemble filter
@@ -359,7 +359,7 @@ makeFilterEnsemble(
 		all.vals = fval.all.ranked[, any(is.na(value)), by = filter]
 		names(all.vals) = c("filter", "value")
 		filts = all.vals[value == FALSE, filter]
-		fval.all.ranked[filter == filts, value:={value[-c(1:nselect)]<-NA;value}, by = filter]
+		fval.all.ranked[filter %in% filts, value:={value[-c(1:nselect)]<-NA;value}, by = filter]
 												
 	# calculate the robust rank aggregation 
 		x = !is.na(fval.all.ranked$value)
