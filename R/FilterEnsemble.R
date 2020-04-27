@@ -138,6 +138,7 @@ makeFilterEnsemble(
 
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
+		print(as.data.frame(fval.all.ranked))
 
     ### calculate ensemble filter
 
@@ -284,7 +285,7 @@ makeFilterEnsemble(
 		filts = all.vals[value == FALSE, filter]
 		print(filts)
 		fval.all.ranked[filter %in% filts, value:={value[.N-nselect:.N]<-NA;value}, by = filter]
-		print(fval.all.ranked)
+		print(as.data.frame(fval.all.ranked))
 		
 	# calculate ensemble filter
 		x = !is.na(fval.all.ranked$value)
