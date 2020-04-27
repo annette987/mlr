@@ -138,7 +138,7 @@ makeFilterEnsemble(
 
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
-		print(as.data.frame(fval.all.ranked))
+#		print(as.data.frame(fval.all.ranked))
 
     ### calculate ensemble filter
 
@@ -273,7 +273,7 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 
-		print("In E-freq")
+#		print("In E-freq")
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 
@@ -283,15 +283,15 @@ makeFilterEnsemble(
 		all.vals = fval.all.ranked[, any(is.na(value)), by = filter]
 		names(all.vals) = c("filter", "value")
 		filts = all.vals[value == FALSE, filter]
-		print(filts)
+#		print(filts)
 		fval.all.ranked[filter %in% filts, value:={value[.N-nselect:.N]<-NA;value}, by = filter]
-		print(as.data.frame(fval.all.ranked))
+#		print(as.data.frame(fval.all.ranked))
 		
 	# calculate ensemble filter
 		x = !is.na(fval.all.ranked$value)
     fval.ens = plyr::count(fval.all.ranked[x,], c("name"))
     colnames(fval.ens) = c("name", "value")
-		print(fval.ens)
+#		print(fval.ens)
 
 		fval.ens$type = fval.all.ranked$type[1:length(unique(fval.ens$name))]
     fval.ens$filter = "E-freq"
@@ -350,7 +350,7 @@ makeFilterEnsemble(
   base.methods = NULL,
   fun = function(task, base.methods, nselect, more.args) {
 		
-		print("In E-RRA")
+#		print("In E-RRA")
     fval.all.ranked = rankBaseFilters(task = task, method = base.methods,
       nselect = nselect, more.args = more.args)
 
@@ -365,14 +365,14 @@ makeFilterEnsemble(
 	# calculate the robust rank aggregation 
 		x = !is.na(fval.all.ranked$value)
 		sets = split(x = fval.all.ranked$name[x], f = fval.all.ranked$filter[x])
-		print(sets)
+#		print(sets)
 		fval.ens = as.data.table(aggregateRanks(glist = sets, method = "RRA", N = 251))
     colnames(fval.ens) = c("name", "value")
 		
 		# add columns "type" and "filter" in preparation for merging
 		fval.ens[fval.all.ranked, type:=type, on = .(name)]
     fval.ens$filter = "E-RRA"
-		print(fval.ens)
+#		print(fval.ens)
 
 	# merge filters
     fval.ens = mergeFilters(fval.all.ranked, fval.ens)
