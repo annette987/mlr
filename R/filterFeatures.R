@@ -189,11 +189,11 @@ filterFeatures = function(task, method = "randomForestSRC_importance",
 
     # order by method and (desc(value))
     features = fval[with(fval, order(filter, -value)), ]
+		features = features[!is.na(features[,"value"]), ] 
 		print(features)
 
     # select names of top n
     features = features[1:nselect, ][1:nselect]$name
-		features = features[!is.na(features[,"value"]), ] 
   } else {
     features = NULL
   }
