@@ -193,6 +193,8 @@ filterFeatures = function(task, method = "randomForestSRC_importance",
 		print(features)
 
     # select names of top n
+		if (nselect > length(features))
+			nselect = length(features)
     features = features[1:nselect, ][1:nselect]$name
   } else {
     features = NULL
