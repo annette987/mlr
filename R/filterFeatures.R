@@ -190,8 +190,6 @@ filterFeatures = function(task, method = "randomForestSRC_importance",
     # order by method and (desc(value))
     features = fval[with(fval, order(filter, -value)), ]
 		features = na.omit(features, cols = "value")
-#		features = features[!is.na(features[,"value"]), ] 
-		print(features)
 
     # select names of top n
 		if (nselect > length(features$value))
