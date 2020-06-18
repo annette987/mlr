@@ -172,7 +172,11 @@ impute.data.frame = function(obj, target = character(0L), classes = list(), cols
   }, xn = names(desc$impute), x = desc$impute)
 
 	print(desc)
+	print("Printing data:")
+	print(data)
   data = reimpute(data, desc)
+	print("After reimpute")
+	print(data)
 
   # store factor levels (this might include new levels created during imputation)
   ind = names(which(feature.classes == "factor"))
