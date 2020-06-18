@@ -173,10 +173,10 @@ impute.data.frame = function(obj, target = character(0L), classes = list(), cols
 
 	print(desc)
 	print("Printing data:")
-	print(data)
+	print(head(data))
   data = reimpute(data, desc)
 	print("After reimpute")
-	print(data)
+	print(head(data))
 
   # store factor levels (this might include new levels created during imputation)
   ind = names(which(feature.classes == "factor"))
@@ -266,6 +266,7 @@ reimpute.data.frame = function(obj, desc) {
 
   # restore dropped columns
   x[setdiff(desc$features, names(x))] = NA
+	print(head(x))
 
   # calculate dummies as nums or factors (see option)
   dummy.cols = lapply(x[desc$dummies], is.na)
@@ -291,12 +292,15 @@ reimpute.data.frame = function(obj, desc) {
         x = x[names(newlvls)], nl = newlvls)
     }
   }
+	print(cols)
+	print(head(x))
 
   # actually do the imputation
   cols = intersect(names(x), names(desc$impute))
   x[cols] = Map(
     function(xn, obj) do.call(obj$impute, c(list(data = x, target = desc$target, col = xn), obj$args)),
     xn = cols, obj = desc$impute[cols])
+	print(head(x))
 
   # recode factor levels
   if (desc$recode.factor.levels) {
@@ -305,6 +309,7 @@ reimpute.data.frame = function(obj, desc) {
       factor(as.character(x), levels = expected)
     }, x = x[cols], expected = desc$lvls)
   }
+	print(head(x))
 
   x[names(dummy.cols)] = dummy.cols
   data.frame(x, stringsAsFactors = FALSE)
