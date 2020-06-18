@@ -125,6 +125,9 @@ impute.data.frame = function(obj, target = character(0L), classes = list(), cols
 
   features = setdiff(names(data), target)
   feature.classes = vcapply(data[features], function(x) class(x)[1L])
+	print(feature.classes)
+	print(names(features))
+	print(names(data))
 
   # some elements need to be set to a non-harmful
   # setting for the first iteration of impute
@@ -168,6 +171,7 @@ impute.data.frame = function(obj, target = character(0L), classes = list(), cols
     )
   }, xn = names(desc$impute), x = desc$impute)
 
+	print(desc)
   data = reimpute(data, desc)
 
   # store factor levels (this might include new levels created during imputation)
