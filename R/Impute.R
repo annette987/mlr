@@ -172,6 +172,8 @@ impute.data.frame = function(obj, target = character(0L), classes = list(), cols
 
   # store factor levels (this might include new levels created during imputation)
   ind = names(which(feature.classes == "factor"))
+	print("In impute.R")
+	print(paste0("ind = ", ind))
 	if (!is.na(ind))
 		desc$lvls = lapply(data[ind], levels)
   desc$classes = feature.classes
