@@ -295,14 +295,13 @@ reimpute.data.frame = function(obj, desc) {
         x = x[names(newlvls)], nl = newlvls)
     }
   }
-	print(cols)
-	print(head(x))
 
   # actually do the imputation
   cols = intersect(names(x), names(desc$impute))
   x[cols] = Map(
     function(xn, obj) do.call(obj$impute, c(list(data = x, target = desc$target, col = xn), obj$args)),
     xn = cols, obj = desc$impute[cols])
+	print(cols)
 	print(head(x))
 
   # recode factor levels
