@@ -247,7 +247,9 @@ reimpute = function(obj, desc) {
 #' @export
 reimpute.data.frame = function(obj, desc) {
 
-  assertClass(desc, classes = "ImputationDesc")
+  print("In reimpute")
+	print(head(obj))
+	assertClass(desc, classes = "ImputationDesc")
   x = as.list(obj)
 
   # check for new columns
@@ -266,6 +268,7 @@ reimpute.data.frame = function(obj, desc) {
 
   # restore dropped columns
   x[setdiff(desc$features, names(x))] = NA
+	print("After restoring dropped columns - what dropped columns???")
 	print(head(x))
 
   # calculate dummies as nums or factors (see option)
